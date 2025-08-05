@@ -235,9 +235,9 @@ variable "install_plugins" {
   description = "List of Jenkins plugins to install"
   type        = list(string)
   default = [
-    "configuration-as-code:1932.v75cb_b_f1b_698d",
+    "configuration-as-code:1963.v24e046127a_3f",
     "git:5.7.0",
-    "kubernetes:4306.vc91e951ea_eb_d",
+    "kubernetes:4358.vcfd9c5a_0a_f51",
     "workflow-aggregator:600.vb_57cdd26fdd7"
   ]
 }
@@ -249,7 +249,7 @@ variable "additional_plugins" {
     "ansicolor:1.0.6",
     "blueocean:1.27.16",
     "config-file-provider:982.vb_a_e458a_37021",
-    "credentials:1413.va_51c53703df1",
+    "credentials:1415.v831096eb_5534",
     "dark-theme:524.vd675b_22b_30cb_",
     "extended-read-permission:61.vf24570ff3b_e9",
     "github:1.41.0",
@@ -259,7 +259,7 @@ variable "additional_plugins" {
     "job-dsl:1.90",
     "matrix-auth:3.2.4",
     "nodejs:1.6.3",
-    "oidc-provider:89.v3dfb_6d89b_618",
+    "oidc-provider:111.v29fd614b_3617",
     "pipeline-stage-view:2.35",
     "pipeline-utility-steps:2.18.0",
     "role-strategy:756.v978cb_392eb_d3",
