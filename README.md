@@ -8,7 +8,8 @@ This module helps install and configure Jenkins via Helm chart.
 
 ```hcl
 module "eks_helm_jenkins" {
-  source = "github.com/spartan-stratos/terraform-modules//aws/eks-helm/jenkins?ref=v0.1.59"
+  source  = "c0x12c/helm-jenkins/aws"
+  version = "1.0.1"
 
   environment             = "dev"
   github_org_display_name = "Spartan"
@@ -18,27 +19,27 @@ module "eks_helm_jenkins" {
   github_org                     = "spartan"
   github_app_oauth_client_id     = "spartan"
   github_app_oauth_client_secret = "super-secure"
-  jenkins_shared_lib_repo        = "github.com/example/example-jenkins-shared-lib.git"
+  jenkins_shared_lib_repo        = "infra-jenkins"
   general_secrets = {
     "secret" = "value"
   }
-  jenkins_base_agent_image_repo = "jenkins/jenkins-agent"
+  jenkins_base_agent_image_repo = "jenkins"
   jenkins_base_agent_image_name = "jenkins-agent"
   jenkins_base_agent_image_tag  = "latest"
   efs_id                        = "fs-12345678"
   jenkins_env_var               = "jenkins-env-var"
   enabled_slack_notification    = false
   enabled_github_app_login      = true
-  jenkins_admins = ["spartan-P00006-admin"]
-  jenkins_executors = ["spartan-P00006-leader", "spartan-P00006-member"]
+  jenkins_admins                = ["spartan-P00006-admin", "spartan-P00006-iaas"]
+  jenkins_executors             = ["spartan-P00006-leader", "spartan-P00006-member"]
 
   enabled_init_scripts = true
   enabled_datadog      = false
 
   google_user_list = {
-    admin = ["spartan-admin"]
+    admin    = ["spartan-admin"]
     executor = ["spartan-leader"]
-    viewer = ["spartan-member"]
+    viewer   = ["spartan-member"]
   }
 }
 
@@ -49,6 +50,7 @@ module "eks_helm_jenkins" {
 - [Example](./examples/)
 
 <!-- BEGIN_TF_DOCS -->
+
 ## Requirements
 
 | Name | Version |
@@ -83,7 +85,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_additional_plugins"></a> [additional\_plugins](#input\_additional\_plugins) | List of additional Jenkins plugins to install | `list(string)` | <pre>[<br/>  "ansicolor:1.0.6",<br/>  "blueocean:1.27.16",<br/>  "config-file-provider:982.vb_a_e458a_37021",<br/>  "credentials:1413.va_51c53703df1",<br/>  "dark-theme:524.vd675b_22b_30cb_",<br/>  "extended-read-permission:61.vf24570ff3b_e9",<br/>  "github:1.41.0",<br/>  "github-oauth:621.v33b_4394dda_4d",<br/>  "google-login:109.v022b_cf87b_e5b_",<br/>  "http_request:1.20",<br/>  "job-dsl:1.90",<br/>  "matrix-auth:3.2.4",<br/>  "nodejs:1.6.3",<br/>  "oidc-provider:89.v3dfb_6d89b_618",<br/>  "pipeline-stage-view:2.35",<br/>  "pipeline-utility-steps:2.18.0",<br/>  "role-strategy:756.v978cb_392eb_d3",<br/>  "slack:761.v2a_8770f0d169",<br/>  "sonar:2.18",<br/>  "sshd:3.350.v1080103a_10fd",<br/>  "theme-manager:278.v2e3c063e42cc",<br/>  "timestamper:1.28",<br/>  "ws-cleanup:0.48"<br/>]</pre> | no |
+| <a name="input_additional_plugins"></a> [additional\_plugins](#input\_additional\_plugins) | List of additional Jenkins plugins to install | `list(string)` | <pre>[<br/>  "ansicolor:1.0.6",<br/>  "blueocean:1.27.16",<br/>  "config-file-provider:982.vb_a_e458a_37021",<br/>  "credentials:1415.v831096eb_5534",<br/>  "dark-theme:524.vd675b_22b_30cb_",<br/>  "extended-read-permission:61.vf24570ff3b_e9",<br/>  "github:1.41.0",<br/>  "github-oauth:621.v33b_4394dda_4d",<br/>  "google-login:109.v022b_cf87b_e5b_",<br/>  "http_request:1.20",<br/>  "job-dsl:1.90",<br/>  "matrix-auth:3.2.4",<br/>  "nodejs:1.6.3",<br/>  "oidc-provider:111.v29fd614b_3617",<br/>  "pipeline-stage-view:2.35",<br/>  "pipeline-utility-steps:2.18.0",<br/>  "role-strategy:756.v978cb_392eb_d3",<br/>  "slack:761.v2a_8770f0d169",<br/>  "sonar:2.18",<br/>  "sshd:3.350.v1080103a_10fd",<br/>  "theme-manager:278.v2e3c063e42cc",<br/>  "timestamper:1.28",<br/>  "ws-cleanup:0.48"<br/>]</pre> | no |
 | <a name="input_admin_alias"></a> [admin\_alias](#input\_admin\_alias) | The alias of Jenkins admin | `string` | `"Spartan"` | no |
 | <a name="input_chart_version"></a> [chart\_version](#input\_chart\_version) | The Jenkins chart version | `string` | `"5.8.10"` | no |
 | <a name="input_domain"></a> [domain](#input\_domain) | The root domain of project | `string` | n/a | yes |
@@ -110,7 +112,7 @@ No modules.
 | <a name="input_google_user_list"></a> [google\_user\_list](#input\_google\_user\_list) | List users and roles for accessing Jenkins | `map(list(string))` | `null` | no |
 | <a name="input_ingress_class_name"></a> [ingress\_class\_name](#input\_ingress\_class\_name) | The ingress class name of Jenkins ingress | `string` | `"alb"` | no |
 | <a name="input_ingress_group_name"></a> [ingress\_group\_name](#input\_ingress\_group\_name) | The ingress group name of Jenkins ingress | `string` | `"external"` | no |
-| <a name="input_install_plugins"></a> [install\_plugins](#input\_install\_plugins) | List of Jenkins plugins to install | `list(string)` | <pre>[<br/>  "configuration-as-code:1932.v75cb_b_f1b_698d",<br/>  "git:5.7.0",<br/>  "kubernetes:4306.vc91e951ea_eb_d",<br/>  "workflow-aggregator:600.vb_57cdd26fdd7"<br/>]</pre> | no |
+| <a name="input_install_plugins"></a> [install\_plugins](#input\_install\_plugins) | List of Jenkins plugins to install | `list(string)` | <pre>[<br/>  "configuration-as-code:1963.v24e046127a_3f",<br/>  "git:5.7.0",<br/>  "kubernetes:4358.vcfd9c5a_0a_f51",<br/>  "workflow-aggregator:600.vb_57cdd26fdd7"<br/>]</pre> | no |
 | <a name="input_jenkins_admins"></a> [jenkins\_admins](#input\_jenkins\_admins) | List of Jenkins admins | `list(string)` | `[]` | no |
 | <a name="input_jenkins_base_agent_image_name"></a> [jenkins\_base\_agent\_image\_name](#input\_jenkins\_base\_agent\_image\_name) | The base image for Jenkins agents | `string` | n/a | yes |
 | <a name="input_jenkins_base_agent_image_repo"></a> [jenkins\_base\_agent\_image\_repo](#input\_jenkins\_base\_agent\_image\_repo) | The base image for Jenkins agents | `string` | n/a | yes |
@@ -136,4 +138,5 @@ No modules.
 ## Outputs
 
 No outputs.
+
 <!-- END_TF_DOCS -->
